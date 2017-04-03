@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+
+<addon
+	id="repository.vibox.vn"
+	version="1.0.0"
+	name="[B][COLOR gold]Vibox.vn Repository[/COLOR][/B]"
+	provider-name="Vibox.vn">
+	<requires>
+		<import addon="xbmc.addon" version="12.0.0"/>
+	</requires>
+	<extension point="xbmc.addon.repository"
+		name="[COLOR lime][B]Vibox.vn Repository[/B][/COLOR]">
+		<info compressed="true">https://raw.github.com/vibox/vibox.vn/master/addons.xml</info>
+		<checksum>https://raw.github.com/vibox/vibox.vn/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://github.com/vibox/vibox.vn/raw/master/zips/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">Install addon from Vibox.vn's repository</summary>
+		<description lang="en">[COLOR red][B]Vibox.vn[/COLOR]-[COLOR lime]Repository dành riêng cho các sản phẩm Vibox[/B][/COLOR]</description>
+		<disclaimer lang="en">Mọi nội dung được lấy từ Internet vì vậy chúng tôi không chịu trách nhiệm về chất lượng cũng như sự ổn định</disclaimer>
+		<email>hotro.hieuhien.vn@gmail.com</email>
+		<platform>all</platform>
+	</extension>
+</addon>
+</addons>
