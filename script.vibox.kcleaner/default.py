@@ -951,7 +951,7 @@ def GetSettings():
 # ============================================================
 
 
-__addon__ = xbmcaddon.Addon(id='script.hieuhien.vn.kcleaner')
+__addon__ = xbmcaddon.Addon(id='script.vibox.kcleaner')
 __addonwd__ = xbmc.translatePath(__addon__.getAddonInfo('path').decode("utf-8"))
 __addondir__ = xbmc.translatePath(__addon__.getAddonInfo('profile').decode('utf8'))
 __addonname__ = __addon__.getAddonInfo('name')
