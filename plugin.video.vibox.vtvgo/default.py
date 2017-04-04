@@ -176,7 +176,7 @@ def O0o0Oo ( args_json = { } ) :
  )
  )
  Oo00OOOOO = xbmcgui . DialogProgress ( )
- Oo00OOOOO . create ( 'VTVGo' , 'Đang tải, Xin quý khách vui lòn đợi trong giây lát...' )
+ Oo00OOOOO . create ( 'VTVGo' , 'Đang tải, Xin quý khách vui lòng đợi trong giây lát...' )
  oo000 . set_resolved_url ( O0O ( Oo0oO0oo0oO00 [ "url" ] ) , subtitles = "https://docs.google.com/spreadsheets/d/16l-nMNyOvrtu4FKLm-ctGDNClCjI09XKp3lcOKPOXMk/export?format=tsv&gid=0" )
  Oo00OOOOO . close ( )
  del Oo00OOOOO
