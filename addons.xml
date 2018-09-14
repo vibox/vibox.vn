@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
+<addon id="plugin.program.vibox.vn" name="[COLOR lime][B]KODI HieuHien.vn[/B][/COLOR]" version="1.0.0" provider-name="vibox.vn">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>program executable</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">vibox.vn</summary>
+    <description lang="en">
+	Cài đặt nhanh Addon-Skin-Source
+	</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.vibox.hdonline" name="[B]HDOnline[/B]" version="1.0.5" provider-name="anhlon">
 	<requires>
 		<import addon="xbmc.python" version="2.7.0"/>
