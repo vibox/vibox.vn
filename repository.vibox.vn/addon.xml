@@ -8,11 +8,6 @@
 		<checksum>https://raw.github.com/vibox/vibox.vn/master/addons.xml.md5</checksum>
 		<datadir zip="true">https://github.com/vibox/vibox.vn/raw/master/zips/</datadir>
 		<dir>
-			<info compressed="true">https://raw.github.com/hieuhienvn/hieuhien.vn/master/addons.xml</info>
-			<checksum>https://raw.github.com/hieuhienvn/hieuhien.vn/master/addons.xml.md5</checksum>
-			<datadir zip="true">https://github.com/hieuhienvn/hieuhien.vn/raw/master/zips/</datadir>
-		</dir>
-		<dir>
 			<info compressed="true">http://repo.kodi.vn/00-VMFrepo/addons.xml</info>
 			<checksum>http://repo.kodi.vn/00-VMFrepo/addons.xml.md5</checksum>
 			<datadir zip="true">http://repo.kodi.vn/00-VMFrepo/</datadir>
