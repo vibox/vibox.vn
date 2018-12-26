@@ -1063,8 +1063,8 @@ def GetFShareCred():
 		return cred
 	except:
 		try:
-			uname = "nguoiphanxu01mf@gmail.com"
-			pword = "phanthi"
+			uname = "hieumoza@gmail.com"
+			pword = "Ou3MUsCp"
 			cred = LoginFShare(uname,pword)
 			user = GetFShareUser(cred)
 			LoginOKNoti(user["email"], user["level"])
