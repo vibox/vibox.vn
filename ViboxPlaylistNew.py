@@ -1053,8 +1053,8 @@ def LoginFShare(uname,pword):
 def GetFShareCred():
 	try:
 		_hash = plugin.get_setting("hash")
-		uname = "nguoiphanxu01mf@gmail.com"
-		pword = "phanthi"
+		uname = "hieumoza@gmail.com"
+		pword = "Ou3MUsCp"
 		if _hash != (uname+pword): 
 			plugin.set_setting("cred","")
 		cred  = json.loads(plugin.get_setting("cred"))
