@@ -1,10 +1,9 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import urllib
 import re
 import json
 from utils.mozie_request import Request
-from utils.link_parser import LinkParser
 
 
 class Parser:
@@ -54,11 +53,14 @@ class Parser:
             'links': [],
         }
 
-        m = re.search("playerInstance.setup\({sources:\[(.*)\]", response)
+        m = re.search("playerInstance.setup\({sources:\[(.*)\]", response) or re.search(
+            "playerInstance.setup.*sources:\[(.*)\],", response)
+
         if m is not None:
             sources = '[%s]' % m.group(1)
             valid_json = re.sub(r'(?<={|,)([a-zA-Z][a-zA-Z0-9]*)(?=:)', r'"\1"', sources)
             sources = json.loads(valid_json)
+            print(sources)
             if len(sources) > 1:
                 sources = sorted(sources, key=lambda elem: int(elem['label'][0:-1]), reverse=True)
             if len(sources) > 0:
@@ -68,7 +70,7 @@ class Parser:
                     'link': source['file'],
                     'title': 'Link %s' % label.encode('utf-8'),
                     'type': label.encode('utf-8'),
-                    'resolvable': True
+                    'resolve': True
                 })
 
             return movie
@@ -80,7 +82,7 @@ class Parser:
                 'link': source,
                 'title': '',
                 'type': '',
-                'resolvable': True
+                'resolve': True
             })
 
             return movie
@@ -88,13 +90,12 @@ class Parser:
         m = re.search('<iframe.*src="(.*)" frameborder', response)
         if m is not None:
             source = urllib.unquote(m.group(1)).replace('\\', '')
-            source = LinkParser(source).get_link()
             if source:
                 movie['links'].append({
-                    'link': source[0],
-                    'title': source[1],
-                    'type': source[1],
-                    'resolvable': True
+                    'link': source,
+                    'title': source,
+                    'type': 'Unknow',
+                    'resolve': False
                 })
                 return movie
 

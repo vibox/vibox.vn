@@ -1,4 +1,4 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from utils.mozie_request import Request
 from utils.aes import CryptoAES
@@ -44,16 +44,27 @@ class Parser:
             jsonresponse = re.search("_responseJson='(.*)';", response).group(1)
             jsonresponse = json.loads(jsonresponse.decode('utf-8'))
 
-            media = sorted(jsonresponse['medias'], key=lambda elem: elem['resolution'], reverse=True)
-            for item in media:
-                # if item['resolution'] <= 480: continue
-                url = CryptoAES().decrypt(item['url'], bytes(self.key.encode('utf-8')))
-                movie['links'].append({
-                    'link': url,
-                    'title': 'Link %s' % item['resolution'],
-                    'type': item['resolution']
-                })
-
+            if jsonresponse['medias']:
+                media = sorted(jsonresponse['medias'], key=lambda elem: elem['resolution'], reverse=True)
+                for item in media:
+                    # if item['resolution'] <= 480: continue
+                    url = CryptoAES().decrypt(item['url'], bytes(self.key.encode('utf-8')))
+                    movie['links'].append({
+                        'link': url,
+                        'title': 'Link %s' % item['resolution'],
+                        'type': item['resolution'],
+                        'resolve': True
+                    })
+            elif jsonresponse['embedUrls']:
+                for item in jsonresponse['embedUrls']:
+                    url = CryptoAES().decrypt(item, bytes(self.key.encode('utf-8')))
+                    if not re.search('hydrax', url):
+                        movie['links'].append({
+                            'link': url,
+                            'title': 'Link Unknow',
+                            'type': 'Unknow',
+                            'resolve': False
+                        })
         return movie
 
     def get_server_list(self, servers):
