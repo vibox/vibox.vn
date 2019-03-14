@@ -9,7 +9,7 @@
   <extension point="xbmc.addon.metadata">
     <summary lang="en">vibox.vn</summary>
     <description lang="en">
-	Cài đặt nhanh Addon-Skin-Source
+	Cai dat nhanh Addon-Skin-Source
 	</description>
     <platform>all</platform>
   </extension>
