@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
+<addon id="plugin.program.vibox.vn" name="[COLOR lime][B]KODI HieuHien.vn[/B][/COLOR]" version="2.0.1" provider-name="HieuHien.vn">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides></provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Trung Tam Giai Tri</summary>
+    <description lang="en">
+	KODI HieuHien.vn
+	</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.bimozie" name="BimoZie" version="0.1.8" provider-name="billy.nguyen">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
