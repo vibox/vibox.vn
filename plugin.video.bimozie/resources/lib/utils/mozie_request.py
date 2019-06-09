@@ -9,8 +9,8 @@ from threading import Thread
 class Request:
     TIMEOUT = 45
     user_agent = (
-        "Mozilla/5.0 (X11; Linux x86_64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        # "Mozilla/5.0 (X11; Linux x86_64) "
+        # "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/59.0.3071.115 Safari/537.36"
     )
     DEFAULT_HEADERS = {
@@ -19,7 +19,7 @@ class Request:
     session = None
     r = None
 
-    def __init__(self, header=None, session=False):
+    def __init__(self, header=None, session=True):
         if header:
             self.DEFAULT_HEADERS = header
         if session:
@@ -44,8 +44,8 @@ class Request:
         if self.session:
             self.r = self.session.post(url, data=params, headers=headers, timeout=self.TIMEOUT,
                                        allow_redirects=redirect, cookies=cookies)
-            for resp in self.r.history:
-                print(resp.status_code, resp.url)
+            # for resp in self.r.history:
+            #     print(resp.status_code, resp.url)
         else:
             self.r = requests.post(url, data=params, headers=headers, timeout=self.TIMEOUT, allow_redirects=redirect,
                                    cookies=cookies)
@@ -72,6 +72,9 @@ class Request:
                                       allow_redirects=redirect)
         return self.r
 
+    def get_request_session(self):
+        return self.session
+
     def get_request(self):
         return self.r
 
@@ -89,7 +92,6 @@ class AsyncRequest:
         self.length = len(urls)
         self.q = Queue(maxsize=self.length)
         self.num_theads = min(self.MIN_THREAD, self.length)
-        print('Total thread %d' % self.num_theads)
         self.dialog = xbmcgui.DialogProgress()
         self.dialog.create('Get URL', "Loading 0/%d urls" % self.length)
         self.results = [{} for x in urls]
