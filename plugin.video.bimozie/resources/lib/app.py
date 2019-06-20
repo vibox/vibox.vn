@@ -10,6 +10,7 @@ import xbmc
 import json
 from importlib import import_module
 from utils.media_helper import MediaHelper
+from threading import Thread
 import utils.xbmc_helper as XbmcHelper
 
 ADDON = xbmcaddon.Addon()
@@ -111,7 +112,7 @@ SITES = [
         'logo': 'https://yt3.ggpht.com/a-/AN66SAx84wKI577rKgX2IeQUiG31GaOhmVIu2le2rQ=s900-mo-c-c0xffffffff-rj-k-no',
         'className': 'Vtv16',
         'plugin': 'vtv16.plugin',
-        'version': 1
+        'version': 21
     },
     {
         'name': 'phimgi.net',
@@ -127,11 +128,14 @@ SITES = [
         'plugin': 'dongphim.plugin',
         'version': 1
     },
+    {
+        'name': 'hdvietnam.com (beta)',
+        'logo': 'http://www.hdvietnam.com/images/hd-vietnam-logo.png',
+        'className': 'Hdvietnam',
+        'plugin': 'hdvietnam.plugin',
+        'version': 1
+    },
 ]
-
-addon_data_dir = os.path.join(xbmc.translatePath('special://userdata/addon_data').decode('utf-8'), ADDON_ID)
-if not os.path.exists(addon_data_dir):
-    os.makedirs(addon_data_dir)
 
 
 def build_url(query):
@@ -339,8 +343,6 @@ def show_links(movie, title, thumb, module, class_name):
 
 def play(movie, title=None, thumb=None, direct=False):
     print("*********************** playing %s" % title)
-    if not movie or 'links' not in movie or len(movie['links']) == 0:
-        return
 
     if direct:
         mediatype = MediaHelper.resolve_link(movie)
@@ -351,11 +353,10 @@ def play(movie, title=None, thumb=None, direct=False):
             return
         else:
             if len(movie['links']) > 1:
-                print(movie['links'])
                 listitems = ["%s (%s)" % (i["title"], i["link"]) for i in movie['links']]
                 index = xbmcgui.Dialog().select("Select stream", listitems)
                 if index == -1:
-                    return
+                    return None
                 else:
                     movie = movie['links'][index]
             else:
@@ -396,7 +397,7 @@ def play(movie, title=None, thumb=None, direct=False):
     xbmcplugin.setResolvedUrl(HANDLE, True, listitem=play_item)
 
 
-def dosearch(plugin, module, classname, text, page=1):
+def dosearch(plugin, module, classname, text, page=1, recall=False):
     xbmcplugin.setPluginCategory(HANDLE, 'Search Result')
     xbmcplugin.setContent(HANDLE, 'movies')
     if not text:
@@ -413,6 +414,11 @@ def dosearch(plugin, module, classname, text, page=1):
     movies = plugin().search(text)
 
     if movies is not None:
+        label = "[COLOR red][B][---- %s : [COLOR yellow]%d found[/COLOR] View All ----][/B][/COLOR]" % (
+            classname, len(movies['movies']))
+        sli = xbmcgui.ListItem(label=label)
+        xbmcplugin.addDirectoryItem(HANDLE, None, sli, isFolder=False)
+
         for item in movies['movies']:
             try:
                 list_item = xbmcgui.ListItem(label=item['label'])
@@ -430,7 +436,9 @@ def dosearch(plugin, module, classname, text, page=1):
                 print(item)
     else:
         return
-    xbmcplugin.endOfDirectory(HANDLE)
+
+    if not recall:
+        xbmcplugin.endOfDirectory(HANDLE)
 
 
 def search(module, classname=None):
@@ -506,17 +514,13 @@ def do_global_search(text):
     XbmcHelper.search_history_save(text)
 
     print("*********************** searching %s" % text)
-    for site in SITES:
-        if site['version'] > KODI_VERSION:
-            continue
 
-        plugin, module, classname = get_plugin({'className': [site['className']], "module": [site['plugin']]})
+    def _search(plugin, module, classname, text):
         movies = None
         try:
             movies = plugin().search(text)
         except:
             pass
-
         if movies is not None:
             label = "[COLOR red][B][---- %s : [COLOR yellow]%d found[/COLOR] View All ----][/B][/COLOR]" % (
             classname, len(movies['movies']))
@@ -538,6 +542,20 @@ def do_global_search(text):
                     xbmcplugin.addDirectoryItem(HANDLE, url, list_item, is_folder)
                 except:
                     print(item)
+
+    threads = []
+    for site in SITES:
+        if site['version'] > KODI_VERSION:
+            continue
+
+        plugin, module, classname = get_plugin({'className': [site['className']], "module": [site['plugin']]})
+        process = Thread(target=_search, args=[plugin, module, classname, text])
+        process.setDaemon(True)
+        process.start()
+        threads.append(process)
+
+    for process in threads:
+        process.join()
     xbmcplugin.endOfDirectory(HANDLE)
 
 

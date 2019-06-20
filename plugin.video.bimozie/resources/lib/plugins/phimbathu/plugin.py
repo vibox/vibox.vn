@@ -1,12 +1,12 @@
 import urllib
 from utils.mozie_request import Request
-from phimbathu.parser.category import Parser as Category
-from phimbathu.parser.channel import Parser as Channel
+from bilutv.parser.category import Parser as Category
+from bilutv.parser.channel import Parser as Channel
 from bilutv.parser.movie import Parser as Movie
 
 
 class Phimbathu:
-    domain = "https://phimbathu.org/"
+    domain = "https://phimbathu.org"
 
     def getCategory(self):
         response = Request().get(self.domain)
@@ -22,28 +22,21 @@ class Phimbathu:
             url = '%s%s' % (self.domain, channel)
 
         response = Request().get(url)
-        return Channel().get(response, page)
+        return Channel().get(response)
 
     def getMovie(self, id):
-        url = "%sphim-0-%s.html" % (self.domain, id)
+        url = "%s/phim-0-%s.html" % (self.domain, id)
         response = Request().get(url)
         url = Movie().get_movie_link(response)
         response = Request().get(url)
         return Movie().get(response)
 
     def getLink(self, movie):
-        url = "%sajax/player" % self.domain
-        data = movie['link'].split(",")
-        params = {
-            'id': data[0],
-            'ep': data[1],
-            'sv': data[2]
-        }
-        response = Request().post(url, params)
-        return Movie().get_link(response)
+        response = Request().get(movie['link'])
+        return Movie().get_link(response, self.domain)
 
     def search(self, text):
         # http://phimbathu.org/tim-kiem/(keywords).html
-        url = "%stim-kiem/%s.html" % (self.domain, urllib.quote_plus(text))
+        url = "%s/tim-kiem/%s.html" % (self.domain, urllib.quote_plus(text))
         response = Request().get(url)
         return Channel().get(response, 1)
