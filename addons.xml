@@ -86,7 +86,7 @@
   </extension>
 </addon>
 
-<addon id="repository.vibox.vn" version="1.2.2.4" name="*[COLOR gold]Vibox.vn[/COLOR] Repository" provider-name="vibox.vn">
+<addon id="repository.vibox.vn" version="1.2.2.4" name="[B][COLOR lime]Hieuhien.vn Repository[/COLOR][/B]" provider-name="Hieuhien.vn">
 <requires>
 		<import addon="xbmc.addon" version="12.0.0"/>
 	</requires>
