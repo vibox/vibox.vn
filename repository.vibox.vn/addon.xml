@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.vibox.vn" version="1.2" name="*[COLOR gold]Vibox.vn[/COLOR] Repository" provider-name="vibox.vn">	
+<addon id="repository.vibox.vn" version="1.2.2.4" name="*[COLOR gold]Vibox.vn[/COLOR] Repository" provider-name="vibox.vn">	
 <requires>
 		<import addon="xbmc.addon" version="12.0.0"/>
 	</requires>
@@ -27,6 +27,12 @@
 			<checksum>https://raw.github.com/thanhnguyenphu/hdplay.kodi/master/addons.xml.md5</checksum>
 			<datadir zip="true">https://github.com/thanhnguyenphu/hdplay.kodi/raw/master/zips/</datadir>
 		</dir>
+		<dir>
+			<info compressed="false">https://github.com/CastagnaIT/repository.castagnait/raw/master/addons.xml</info>
+			<checksum>https://github.com/CastagnaIT/repository.castagnait/raw/master/addons.xml.md5</checksum>
+			<datadir zip="true">https://github.com/CastagnaIT/repository.castagnait/raw/master/zip</datadir>
+		</dir>
+		<dir>
 		<dir>
 			<info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
 			<checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
