@@ -16,7 +16,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.bimozie" name="BimoZie" version="0.2.11" provider-name="billy.nguyen">
+<addon id="plugin.video.bimozie" name="BimoZie" version="0.2.12" provider-name="billy.nguyen">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
         <import addon="script.module.beautifulsoup4" version="4.3.1"/>
@@ -30,7 +30,7 @@
     </extension>
     <extension point="xbmc.addon.metadata">
         <summary>Bimozie addon</summary>
-        <description>This plugin allows you to watch movies from several vietnamese websites likes phimmoi phimmedia hdvietnam...
+        <description>This plugin allows you to watch movies from several vietnamese websites vkool phimmoi phimmedia hdvietnam...
         </description>
         <disclaimer>The provider is not responsible for any issues caused by using this addon.
         </disclaimer>
@@ -133,6 +133,27 @@
 		<email>hotro.hieuhien.vn@gmail.com</email>
 		<platform>all</platform>
 	</extension>
+</addon>
+
+<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.33" provider-name="jsergio">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0" />
+        <import addon="plugin.video.youtube" optional="true" />
+        <import addon="script.module.python.twitch" optional="true" />
+        <import addon="script.module.cryptopy" version="1.2.6" optional="true" />
+        <import addon="plugin.video.gdrive" optional="true" />
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.python.pluginsource" library="lib/default.py" />
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">Resolve common video host URL's to be playable in XBMC/Kodi.</summary>
+        <summary lang="es">Resolver enlaces a videos de sitios populares para poder reproducirlos en XBMC/Kodi.</summary>
+        <summary lang="hr">Prilagodi najčešće URL-ove video izvora kako bi radili u XBMC/Kodiju.</summary>
+        <summary lang="el">Επίλυση συνδέσμων κοινών εξυπηρετητών σε μορφή βίντεο ικανό για αναπαραγωγή στο XBMC/Kodi.</summary>
+        <description lang="en">Resolve common video host URL's to be playable in XBMC/Kodi, simplify addon development of video plugins requiring multi video hosts.</description>
+        <description lang="hr">Prilagodi najčešće URL-ove video izvora kako bi radili u XBMC/Kodiju, pojednostavnjuje razvoj priključaka za video dodatke koji zahtjevaju višestruke video izvore.</description>
+    </extension>
 </addon>
 
 <addon id="service.subtitles.subscene"

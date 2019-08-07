@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-import os
+import re
 import urllib
 import urlparse
 import xbmcgui
@@ -31,12 +31,20 @@ SITES = [
         'version': 1
     },
     {
+        'name': 'vkool.tv',
+        'logo': 'https://i.ibb.co/TcWtgB5/rsz-image.png',
+        'className': 'Vkool',
+        'plugin': 'vkool.plugin',
+        'version': 1
+    },
+    {
         'name': 'fimfast.com',
         'logo': 'https://fimfast.com/assets/img/logo.png',
         'className': 'Fimfast',
         'plugin': 'fimfast.plugin',
         'version': 1
     },
+
     {
         'name': 'bilutv.org',
         'logo': 'http://bilutv.org/Theme/images/bilutv-logo-noel.png',
@@ -206,7 +214,7 @@ def list_category(cats, module, classname, movies=None):
     for cat in cats:
         list_item = xbmcgui.ListItem(label=cat['title'])
         list_item.addContextMenuItems(globalContextMenu())
-        if 'subcategory' in cat and len(cat['subcategory']) > 0:
+        if 'subcategory' in cat and cat['subcategory'] and len(cat['subcategory']) > 0:
             url = build_url({'mode': 'category', 'url': cat['link'], 'name': cat['title'],
                              'subcategory': json.dumps(cat['subcategory']), 'module': module, 'className': classname})
         else:
@@ -239,7 +247,7 @@ def list_movie(movies, link, page, module, classname):
                 if 'intro' in item:
                     list_item.setInfo(type='video', infoLabels={'plot': item['intro']})
                 url = build_url(
-                    {'mode': 'movie', 'url': item['id'], 'thumb': item['thumb'], 'title': item['title'],
+                    {'mode': 'movie', 'url': item['id'], 'thumb': item['thumb'], 'title': item['realtitle'] and item['realtitle'] or item['title'],
                      'module': module, 'className': classname})
                 is_folder = True
                 xbmcplugin.addDirectoryItem(HANDLE, url, list_item, is_folder)
@@ -314,11 +322,10 @@ def _build_ep_list(items, title, thumb, module, class_name):
         li.setProperty('fanart_image', thumb)
         li.setArt({'thumb': thumb})
         movie_title = title
-
-        try:
-            movie_title = "[%s] %s" % (item['title'], title)
-        except:
-            pass
+        # try:
+        #     movie_title = "[%s] %s" % (item['title'], title)
+        # except:
+        #     pass
 
         url = build_url({'mode': 'play',
                          'title': movie_title,
@@ -380,6 +387,24 @@ def play(movie, title=None, thumb=None, direct=False):
             return
         else:
             if len(movie['links']) > 1:
+                # sort all links
+                try:
+                    movie['links'] = sorted(movie['links'],
+                                            key=lambda elem: re.search(r'(\d+)', elem['title'])
+                                                             and int(re.search(r'(\d+)', elem['title']).group(1))
+                                                             or 0, reverse=True)
+                except Exception as e:
+                    print(e)
+
+                # blacklist link
+                blacklist = ['hydra']
+
+                def filter_blacklist(m):
+                    for i in blacklist:
+                        if i in m['link']: return False
+                    return True
+
+                movie['links'] = list(filter(filter_blacklist, movie['links']))
                 listitems = ["%s (%s)" % (i["title"], i["link"]) for i in movie['links']]
                 index = xbmcgui.Dialog().select("Select stream", listitems)
                 if index == -1:
@@ -392,10 +417,6 @@ def play(movie, title=None, thumb=None, direct=False):
             mediatype = MediaHelper.resolve_link(movie)
             play_item = xbmcgui.ListItem()
             play_item.setPath(movie['link'])
-            try:
-                title = "%s - %s" % (movie['title'].encode('utf-8'), title.encode('utf-8'))
-            except:
-                pass
 
     if not movie['link']: return
 
@@ -417,8 +438,9 @@ def play(movie, title=None, thumb=None, direct=False):
     play_item.setProperty('IsPlayable', 'true')
     # update title
     try:
-        play_item.setLabel(title)
-        play_item.setInfo('video', {'Title': title})
+        play_item.setInfo('video', {'title': "[%s] %s" % (movie['title'], title)})
+        play_item.setInfo('video', {'originaltitle': title})
+        play_item.setInfo('video', {'sorttitle': title})
     except:
         print(movie['title'], title)
 

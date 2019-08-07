@@ -43,12 +43,15 @@ def message(message='', title='', timeShown=5000):
 
 def write_file(name, content, binary=False):
     path = get_file_path(name)
-    mode = 'w'
-    if binary:
-        mode = 'wb'
-    f = open(path, mode=mode)
-    f.write(content)
-    f.close()
+    try:
+        mode = 'w+'
+        if binary:
+            mode = 'wb+'
+        f = open(path, mode=mode)
+        f.write(content)
+        f.close()
+    except:
+        pass
     return path
 
 
@@ -83,13 +86,13 @@ def search_history_save(search_key):
     content.insert(0, search_key)
 
     path = os.path.join(addon_data_dir, 'history.json')
-    with open(path, 'w') as outfile:
+    with open(path, 'w+') as outfile:
         json.dump(content, outfile)
 
 
 def search_history_clear():
     path = os.path.join(addon_data_dir, 'history.json')
-    with open(path, 'w') as outfile:
+    with open(path, 'w+') as outfile:
         json.dump([], outfile)
 
 
