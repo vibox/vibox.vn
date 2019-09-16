@@ -1107,8 +1107,8 @@ def get_fshare_setting(s):
 def GetFShareCred():
 	try:
 		_hash = get_fshare_setting("hash")
-		uname = "thinhdatehdt119@gmail.com"
-		pword = "Thinh123"
+		uname = "babes1080g@yahoo.com"
+		pword = "Vipvip123"
 		if _hash != (uname+pword): 
 			plugin.set_setting("cred","")
 		cred  = json.loads(get_fshare_setting("cred"))
@@ -1117,8 +1117,8 @@ def GetFShareCred():
 		return cred
 	except:
 		try:
-			uname = "thinhdatehdt119@gmail.com"
-			pword = "Thinh123"
+			uname = "babes1080g@yahoo.com"
+			pword = "Vipvip123"
 			cred = LoginFShare(uname,pword)
 			user = GetFShareUser(cred)
 			LoginOKNoti(user["email"], user["level"])
