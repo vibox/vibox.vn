@@ -19,6 +19,8 @@ from .hosts import fshare, \
     rapidvid, \
     onlystream, \
     movie3s, \
+    smamuhh1metro, \
+    toolpg, \
     verystream
 
 
@@ -38,8 +40,14 @@ class LinkParser:
         elif re.search('openload.co', self.url):
             return self.get_link_openload()
 
+        elif re.search('toolsp2p.to', self.url):
+            return toolpg.get_link(self.url, self.media)
+
         elif re.search('movie3s.net', self.url):
             return movie3s.get_link(self.url, self.media)
+
+        elif re.search('smamuhh1metro.com', self.url):
+            return smamuhh1metro.get_link(self.url, self.media)
 
         elif re.search('fshare.vn', self.url):
             return self.get_link_fshare()
@@ -169,7 +177,7 @@ class LinkParser:
             })
             return url, 'hls5'
 
-        return self.url, 'hls'
+        return self.url, 'hls3'
 
     def get_sstreamgg(self):
         url = self.url + "|Referer=https://vuviphim.com/"
